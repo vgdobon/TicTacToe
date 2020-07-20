@@ -1,33 +1,38 @@
 public class TicTacToe {
 
-    char [][] tablero = new char[3][3];
-    char player1='X';
-    char player2='O';
+    private char [][] tablero = new char[3][3];
+    private char player1='X';
+    private char player2='O';
+    private String nombrePlayer1="";
+    private String nombrePlayer2="";
 
-    public TicTacToe(){
-        for (int i = 0; i < tablero.length; i++) {
-            for (int j = 0; j < tablero.length; j++) {
-                tablero[i][j]='-';
+    public TicTacToe(String namePlayer1, String namePlayer2){
+        for (int i = 0; i < getTablero().length; i++) {
+            for (int j = 0; j < getTablero().length; j++) {
+                getTablero()[i][j]='-';
             }
         }
+
+        this.setNombrePlayer1(namePlayer1);
+        this.setNombrePlayer2(namePlayer2);
 
     }
 
     public void draw(){
-        for (int i = 0; i < tablero.length; i++) {
-            for (int j = 0; j < tablero[i].length; j++) {
-                System.out.print(tablero[i][j]+" ");
+        for (int i = 0; i < getTablero().length; i++) {
+            for (int j = 0; j < getTablero()[i].length; j++) {
+                System.out.print(getTablero()[i][j]+" ");
             }
             System.out.println();
         }
     }
 
     public void jugarPlayer(int indiceI,int indiceJ,int player){
-        if(tablero[indiceI][indiceJ]=='-'){
+        if(getTablero()[indiceI][indiceJ]=='-'){
             if(player==1){
-                tablero[indiceI][indiceJ]=player1;
+                getTablero()[indiceI][indiceJ]= getPlayer1();
             }else{
-                tablero[indiceI][indiceJ]=player2;
+                getTablero()[indiceI][indiceJ]= getPlayer2();
             }
         }else{
             System.out.println("Esa celda ya estaba seleccionada. Pierdes turno");
@@ -38,19 +43,35 @@ public class TicTacToe {
     }
 
     public boolean check(){
+
+        if(!completado()){
+            if(horizontal()||vertical()||diagonalAscendente()||diagonalDescendente()){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            end();
+            return true;
+        }
+
+
+    }
+
+    public boolean horizontal(){
         int conteoPlayer1=0;
         int conteoPlayer2=0;
 
         //buscador de horizontales iguales
-        for (int i = 0; i < tablero.length; i++) {
+        for (int i = 0; i < getTablero().length; i++) {
             conteoPlayer1=0;
             conteoPlayer2=0;
-            for (int j = 0; j < tablero[i].length ; j++) {
+            for (int j = 0; j < getTablero()[i].length ; j++) {
 
-                if(tablero[i][j]=='X'){
+                if(getTablero()[i][j]=='X'){
                     conteoPlayer1++;
                 }
-                if(tablero[i][j]=='O'){
+                if(getTablero()[i][j]=='O'){
                     conteoPlayer2++;
                 }
             }
@@ -65,19 +86,23 @@ public class TicTacToe {
             }
 
         }
-        conteoPlayer1=0;
-        conteoPlayer2=0;
+        return false;
+    }
+
+    public boolean vertical(){
+        int conteoPlayer1=0;
+        int conteoPlayer2=0;
 
         //buscador de verticales
-        for (int i = 0; i < tablero.length; i++) {
+        for (int i = 0; i < getTablero().length; i++) {
             conteoPlayer1=0;
             conteoPlayer2=0;
-            for (int j = 0; j < tablero.length ; j++) {
+            for (int j = 0; j < getTablero().length ; j++) {
 
-                if(tablero[j][i]=='X'){
+                if(getTablero()[j][i]=='X'){
                     conteoPlayer1++;
                 }
-                if(tablero[j][i]=='O'){
+                if(getTablero()[j][i]=='O'){
                     conteoPlayer2++;
                 }
             }
@@ -92,18 +117,23 @@ public class TicTacToe {
             }
 
         }
-        conteoPlayer1=0;
-        conteoPlayer2=0;
+        return false;
+
+    }
+
+    public boolean diagonalDescendente(){
+        int conteoPlayer1=0;
+        int conteoPlayer2=0;
 
         //buscador de diagonales
 
         //Diagonal \
 
-        for (int i = 0; i < tablero.length; i++) {
-            if(tablero[i][i]=='X'){
+        for (int i = 0; i < getTablero().length; i++) {
+            if(getTablero()[i][i]=='X'){
                 conteoPlayer1++;
             }
-            if(tablero[i][i]=='O'){
+            if(getTablero()[i][i]=='O'){
                 conteoPlayer2++;
             }
         }
@@ -116,17 +146,20 @@ public class TicTacToe {
             winner(2);
             return true;
         }
+        return false;
+    }
 
+    public boolean diagonalAscendente(){
         //Diagonal /
 
-        conteoPlayer1=0;
-        conteoPlayer2=0;
+        int conteoPlayer1=0;
+        int conteoPlayer2=0;
 
-        for (int i = tablero.length-1; i >=0 ; i--) {
-            if(tablero[i][tablero.length-1-i]=='X'){
+        for (int i = getTablero().length-1; i >=0 ; i--) {
+            if(getTablero()[i][getTablero().length-1-i]=='X'){
                 conteoPlayer1++;
             }
-            if(tablero[i][tablero.length-1-i]=='O'){
+            if(getTablero()[i][getTablero().length-1-i]=='O'){
                 conteoPlayer2++;
             }
         }
@@ -141,17 +174,75 @@ public class TicTacToe {
         }
 
         return false;
+    }
 
-
-
+    public boolean completado(){
+        int conteoVacias=0;
+        for (int i = 0; i < getTablero().length; i++) {
+            for (int j = 0; j < getTablero().length; j++) {
+                if (getTablero()[i][j]=='-'){
+                    conteoVacias++;
+                }
+            }
+        }
+        if(conteoVacias==0){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public void winner(int ganador){
         if(ganador==1){
-            System.out.println("Ha ganado el jugador 1");
+            System.out.println("Ha ganado : " + getNombrePlayer1());
         }
         if (ganador==2){
-            System.out.println("Ha ganado el jugador 2");
+            System.out.println("Ha ganado : " + getNombrePlayer2());
         }
+    }
+
+    public void end(){
+        System.out.println("El juego ha terminado en empate");
+    }
+    //GETTER AND SETTER
+
+    public char[][] getTablero() {
+        return tablero;
+    }
+
+    public void setTablero(char[][] tablero) {
+        this.tablero = tablero;
+    }
+
+    public char getPlayer1() {
+        return player1;
+    }
+
+    public void setPlayer1(char player1) {
+        this.player1 = player1;
+    }
+
+    public char getPlayer2() {
+        return player2;
+    }
+
+    public void setPlayer2(char player2) {
+        this.player2 = player2;
+    }
+
+    public String getNombrePlayer1() {
+        return nombrePlayer1;
+    }
+
+    public void setNombrePlayer1(String nombrePlayer1) {
+        this.nombrePlayer1 = nombrePlayer1;
+    }
+
+    public String getNombrePlayer2() {
+        return nombrePlayer2;
+    }
+
+    public void setNombrePlayer2(String nombrePlayer2) {
+        this.nombrePlayer2 = nombrePlayer2;
     }
 }
