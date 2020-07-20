@@ -5,6 +5,8 @@ public class TicTacToe {
     private char player2='O';
     private String nombrePlayer1="";
     private String nombrePlayer2="";
+    int conteoPlayer1=0;
+    int conteoPlayer2=0;
 
     public TicTacToe(String namePlayer1, String namePlayer2){
         for (int i = 0; i < getTablero().length; i++) {
@@ -45,11 +47,7 @@ public class TicTacToe {
     public boolean check(){
 
         if(!completado()){
-            if(horizontal()||vertical()||diagonalAscendente()||diagonalDescendente()){
-                return true;
-            }else{
-                return false;
-            }
+            return horizontal() || vertical() || diagonalAscendente() || diagonalDescendente();
         }else{
             end();
             return true;
@@ -59,8 +57,6 @@ public class TicTacToe {
     }
 
     public boolean horizontal(){
-        int conteoPlayer1=0;
-        int conteoPlayer2=0;
 
         //buscador de horizontales iguales
         for (int i = 0; i < getTablero().length; i++) {
@@ -90,8 +86,6 @@ public class TicTacToe {
     }
 
     public boolean vertical(){
-        int conteoPlayer1=0;
-        int conteoPlayer2=0;
 
         //buscador de verticales
         for (int i = 0; i < getTablero().length; i++) {
@@ -122,8 +116,6 @@ public class TicTacToe {
     }
 
     public boolean diagonalDescendente(){
-        int conteoPlayer1=0;
-        int conteoPlayer2=0;
 
         //buscador de diagonales
 
@@ -151,9 +143,6 @@ public class TicTacToe {
 
     public boolean diagonalAscendente(){
         //Diagonal /
-
-        int conteoPlayer1=0;
-        int conteoPlayer2=0;
 
         for (int i = getTablero().length-1; i >=0 ; i--) {
             if(getTablero()[i][getTablero().length-1-i]=='X'){
@@ -185,11 +174,7 @@ public class TicTacToe {
                 }
             }
         }
-        if(conteoVacias==0){
-            return true;
-        }else{
-            return false;
-        }
+        return conteoVacias == 0;
     }
 
     public void winner(int ganador){
