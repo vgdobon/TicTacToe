@@ -47,11 +47,7 @@ public class TicTacToe {
     public boolean check(){
 
         if(!completado()){
-            if(horizontal()||vertical()||diagonalAscendente()||diagonalDescendente()){
-                return true;
-            }else{
-                return false;
-            }
+            return horizontal() || vertical() || diagonalAscendente() || diagonalDescendente();
         }else{
             end();
             return true;
@@ -189,11 +185,7 @@ public class TicTacToe {
                 }
             }
         }
-        if(conteoVacias==0){
-            return true;
-        }else{
-            return false;
-        }
+        return conteoVacias == 0;
     }
 
     public void winner(int ganador){
