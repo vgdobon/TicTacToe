@@ -41,11 +41,16 @@ public class Main {
                 }
             }
 
-            System.out.println("¿Quieres seguir jugando?");
-            String echarOtraPartida= sc.nextLine();
+            sc.nextLine();
 
-            if(echarOtraPartida.toLowerCase().equals("no")){
+            System.out.println("¿Quieres seguir jugando?");
+            String echarOtraPartida= sc.nextLine().toLowerCase();
+
+            if(echarOtraPartida.equals("no")){
                 seguirJugando=false;
+            }else{
+                ganador=false;
+                juego.reset();
             }
         }
 

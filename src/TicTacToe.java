@@ -47,7 +47,11 @@ public class TicTacToe {
     public boolean check(){
 
         if(!completado()){
-            return horizontal() || vertical() || diagonalAscendente() || diagonalDescendente();
+            if(horizontal()||vertical()||diagonalAscendente()||diagonalDescendente()){
+                return true;
+            }else{
+                return false;
+            }
         }else{
             end();
             return true;
@@ -82,6 +86,9 @@ public class TicTacToe {
             }
 
         }
+
+
+
         return false;
     }
 
@@ -91,12 +98,12 @@ public class TicTacToe {
         for (int i = 0; i < getTablero().length; i++) {
             conteoPlayer1=0;
             conteoPlayer2=0;
-            for (int j = 0; j < getTablero().length ; j++) {
+            for (int j = 0; j < getTablero().length; j++) {
 
-                if(getTablero()[j][i]=='X'){
+                if (getTablero()[j][i] == 'X') {
                     conteoPlayer1++;
                 }
-                if(getTablero()[j][i]=='O'){
+                if (getTablero()[j][i] == 'O') {
                     conteoPlayer2++;
                 }
             }
@@ -109,8 +116,10 @@ public class TicTacToe {
                 winner(2);
                 return true;
             }
-
         }
+
+
+
         return false;
 
     }
@@ -121,6 +130,9 @@ public class TicTacToe {
 
         //Diagonal \
 
+        conteoPlayer1=0;
+        conteoPlayer2=0;
+
         for (int i = 0; i < getTablero().length; i++) {
             if(getTablero()[i][i]=='X'){
                 conteoPlayer1++;
@@ -128,6 +140,7 @@ public class TicTacToe {
             if(getTablero()[i][i]=='O'){
                 conteoPlayer2++;
             }
+
         }
         if (conteoPlayer1>2){
             winner(1);
@@ -143,6 +156,8 @@ public class TicTacToe {
 
     public boolean diagonalAscendente(){
         //Diagonal /
+        conteoPlayer1=0;
+        conteoPlayer2=0;
 
         for (int i = getTablero().length-1; i >=0 ; i--) {
             if(getTablero()[i][getTablero().length-1-i]=='X'){
@@ -174,7 +189,11 @@ public class TicTacToe {
                 }
             }
         }
-        return conteoVacias == 0;
+        if(conteoVacias==0){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public void winner(int ganador){
@@ -188,6 +207,14 @@ public class TicTacToe {
 
     public void end(){
         System.out.println("El juego ha terminado en empate");
+    }
+
+    public void reset(){
+        for (int i = 0; i < getTablero().length; i++) {
+            for (int j = 0; j < getTablero().length; j++) {
+                getTablero()[i][j]='-';
+            }
+        }
     }
     //GETTER AND SETTER
 
